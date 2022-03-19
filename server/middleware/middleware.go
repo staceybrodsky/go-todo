@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/staceybrodsky/go-todo/server/models"
+	"go-todo/server/models"
 
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"

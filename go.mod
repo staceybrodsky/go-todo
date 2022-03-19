@@ -1,4 +1,4 @@
-module github.com/staceybrodsky/go-todo
+module go-todo
 
 go 1.17
 
