@@ -6,9 +6,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
-	"../models"
+	"github.com/staceybrodsky/go-todo/server/models"
+
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -16,22 +19,33 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-// DB connection string
-// for localhost mongoDB
-// const connectionString = "mongodb://localhost:27017"
-const connectionString = "mongodb+srv://user:password!mdb@cluster0.4n2c9.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-
-// Database Name
-const dbName = "test"
-
-// Collection name
-const collName = "todolist"
-
 // collection object/instance
 var collection *mongo.Collection
 
 // create connection with mongo db
 func init() {
+	loadTheEnv()
+	createDBInstance()
+}
+
+func loadTheEnv() {
+	// load .env file
+	err := godotenv.Load(".env")
+
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
+}
+
+func createDBInstance() {
+	// DB connection string
+	connectionString := os.Getenv("DB_URI")
+
+	// Database Name
+	dbName := os.Getenv("DB_NAME")
+
+	// Collection name
+	collName := os.Getenv("DB_COLLECTION_NAME")
 
 	// Set client options
 	clientOptions := options.Client().ApplyURI(connectionString)
